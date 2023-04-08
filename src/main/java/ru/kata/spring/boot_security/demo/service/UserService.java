@@ -48,6 +48,11 @@ public class UserService implements InterfaceUserService {
         return user;
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUserName(username);
+    }
+
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
@@ -69,7 +74,7 @@ public class UserService implements InterfaceUserService {
         }
 
         // проверка на наличие пользователя в бд
-        if (userRepository.findByUserName(user.getUsername()) != null && user.getId() == null) {
+        if (userRepository.findByUserName(user.getFirstName()) != null && user.getId() == null) {
             return false;
         }
 

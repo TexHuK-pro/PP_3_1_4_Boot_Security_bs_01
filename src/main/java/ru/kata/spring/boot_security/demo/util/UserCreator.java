@@ -8,7 +8,6 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import java.util.List;
 
 
-
 @Component
 public class UserCreator {
 
@@ -24,8 +23,8 @@ public class UserCreator {
 
 
     public List<User> createUsersWithRoles() {
-        User user = new User("user", "user", "123@123", List.of(ROLE_USER));
-        User admin = new User("admin", "admin", "321@21`", List.of(ROLE_ADMIN, ROLE_USER));
+        User user = new User("user", "lastUserName", 22, "123", "user@user.ru", List.of(ROLE_USER));
+        User admin = new User("admin", "lastAdminName", 27, "123", "admin@admin.ru", List.of(ROLE_ADMIN));
         return List.of(admin, user);
     }
 }

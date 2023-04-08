@@ -9,7 +9,8 @@ import java.util.List;
 public interface InterfaceUserService extends UserDetailsService {
     User findUserById(Long userId);
     List<User> allUsers();
+    boolean saveUser(User user);
     boolean deleteUser(Long userId);
     List<Role> getRoles();
-    List<User> usergtList(Long idMin);
+    User findByUsername(String username);
 }
