@@ -38,8 +38,8 @@ public class AdminController {
     }
 
     @DeleteMapping("/admin-delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
+    public String deleteUser(Principal principal, @PathVariable("id") Long id) {
+        userService.deleteUser(principal, id);
         return "redirect:/admin";
     }
 

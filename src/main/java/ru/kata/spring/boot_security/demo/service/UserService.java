@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +78,7 @@ public class UserService implements InterfaceUserService {
             return false;
         }
 
-        // проверка на наличие пороля при создание нового пользователя
+        // проверка на наличие пароля при создание нового пользователя
         if (user.getId() == null && user.getPassword().isEmpty()) {
             return false;
         }
@@ -100,7 +100,14 @@ public class UserService implements InterfaceUserService {
     }
 
     @Transactional
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(Principal principal, Long userId) {
+
+        //проверка на удаление самих себя
+        User admin = findByUsername(principal.getName());
+        if (userId == admin.getId()) {
+            return false;
+        }
+
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
             return true;
