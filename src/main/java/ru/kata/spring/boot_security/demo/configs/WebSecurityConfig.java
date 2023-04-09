@@ -31,16 +31,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().httpBasic().and()
                 .authorizeRequests()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
-                .formLogin()
-                //.usernameParameter("email")
-                .successHandler(successUserHandler)
-                .and()
-                .logout()
-                .permitAll();
+                .formLogin(form -> {
+                    try {
+                        form
+                                .loginPage("/login")
+                                .successHandler(successUserHandler)
+                                .and()
+                                .logout()
+                                .permitAll();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     @Bean
